@@ -1,16 +1,18 @@
 module.exports = {
-
-  title: 'Vue Admin Template',
+// 项目名称
+  title: '资源后台管理项目',
 
   /**
    * @type {boolean} true | false
    * @description Whether fix the header
    */
+  // 固定头部
   fixedHeader: false,
 
   /**
    * @type {boolean} true | false
    * @description Whether show the logo in sidebar
    */
-  sidebarLogo: false
+  // 显示左侧菜单logo
+  sidebarLogo: true
 }

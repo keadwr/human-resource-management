@@ -1,3 +1,5 @@
+// vue的配置文件
+
 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
@@ -13,8 +15,12 @@ const name = defaultSettings.title || 'vue Admin Template' // page title
 // For example, Mac: sudo npm run
 // You can change the port by the following methods:
 // port = 9528 npm run dev OR npm run dev --port = 9528
-const port = process.env.port || process.env.npm_config_port || 9528 // dev port
 
+// 开发环境服务端口的位置
+// npm run dev 此时就会执行.env.development
+// npm run build 生产环境的打包，此时执行.env.production
+const port = process.env.port || process.env.npm_config_port || 9528 // dev port
+// process.env.port： node环境下的，在.env.development文件中配置
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
   /**
@@ -29,20 +35,30 @@ module.exports = {
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
+  // 代理选项
   devServer: {
-    port: port,
-    open: true,
-    overlay: {
-      warnings: false,
-      errors: true
-    },
-    before: require('./mock/mock-server.js')
+    // 代理配置
+    proxy:{
+      // 这里的api 表示如果我们的请求地址有/api的时候,就出触发代理机制
+      // localhost:8888/api/abc  => 代理给另一个服务器
+      // 本地的前端  =》 本地的后端  =》 代理我们向另一个服务器发请求 （行得通）
+      // 本地的前端  =》 另外一个服务器发请求 （跨域 行不通）
+      // '/api'只是一个属性名可以起任何名称，如：'/aaa'
+      '/api':{
+      target:'http://ihrm-java.itheima.net/',
+      // pathRewrite:{'/^api':''}, //路径重写
+      //重新路由  localhost:8888/api/login  => www.baidu.com/api/login
+      // 假设我们想把 localhost:8888/api/login 变成www.baidu.com/login 就需要这么做 
+      changeOrigin:true,// 是否跨域 需要设置此值为true 才可以让本地服务代理我们发出请求
+    }
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
     name: name,
     resolve: {
+      // 别名
       alias: {
         '@': resolve('src')
       }

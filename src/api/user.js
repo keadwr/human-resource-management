@@ -1,24 +1,32 @@
 import request from '@/utils/request'
-
+// 封装登录接口
 export function login(data) {
   return request({
-    url: '/vue-admin-template/user/login',
-    method: 'post',
+    url:'/sys/login',
+    method:'post',
+    data,
+  })
+}
+// 获取用户基本资料
+export function getUserInfo (data) {
+  // 返回一个axios对象
+  return request({
+    url: '/sys/profile',
+    method: "post",
     data
-  })
+ })
+}
+// 获取用户头像
+export function getUserDetailById (id) {
+  // 返回一个axios对象
+  return request({
+    url: `/sys/user/${id}`,
+ })
 }
 
-export function getInfo(token) {
-  return request({
-    url: '/vue-admin-template/user/info',
-    method: 'get',
-    params: { token }
-  })
-}
 
-export function logout() {
-  return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
-  })
-}
+
+
+
+
+

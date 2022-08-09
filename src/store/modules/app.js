@@ -9,6 +9,7 @@ const state = {
 }
 
 const mutations = {
+  // 点击丁鹿学堂前面的图标实现页面的伸缩
   TOGGLE_SIDEBAR: state => {
     state.sidebar.opened = !state.sidebar.opened
     state.sidebar.withoutAnimation = false

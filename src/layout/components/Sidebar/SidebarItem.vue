@@ -1,4 +1,5 @@
 <template>
+<!-- 权限 -->
   <div v-if="!item.hidden">
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
@@ -7,20 +8,6 @@
         </el-menu-item>
       </app-link>
     </template>
-
-    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
-      <template slot="title">
-        <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
-      </template>
-      <sidebar-item
-        v-for="child in item.children"
-        :key="child.path"
-        :is-nest="true"
-        :item="child"
-        :base-path="resolvePath(child.path)"
-        class="nest-menu"
-      />
-    </el-submenu>
   </div>
 </template>
 
@@ -58,22 +45,22 @@ export default {
   },
   methods: {
     hasOneShowingChild(children = [], parent) {
+      // 第一个读取每个路由的children，第二个读取整个路由对象
       const showingChildren = children.filter(item => {
         if (item.hidden) {
           return false
         } else {
-          // Temp set(will be used if only has one showing child)
           this.onlyOneChild = item
           return true
         }
       })
 
-      // When there is only one child router, the child router is displayed by default
+      
+      // 可以过滤到
       if (showingChildren.length === 1) {
         return true
       }
 
-      // Show parent if there are no child router to display
       if (showingChildren.length === 0) {
         this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
         return true

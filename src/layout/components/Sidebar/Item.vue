@@ -1,4 +1,5 @@
 <script>
+// 函数式组件
 export default {
   name: 'MenuItem',
   functional: true,
@@ -12,6 +13,7 @@ export default {
       default: ''
     }
   },
+  // 渲染
   render(h, context) {
     const { icon, title } = context.props
     const vnodes = []
